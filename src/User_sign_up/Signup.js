@@ -1,7 +1,10 @@
 
 
-import React from 'react'
-import { css } from 'glamor'
+import React from 'react';
+import { css } from 'glamor';
+
+import { Auth } from 'aws-amplify'
+
 class SignUp extends React.Component {
 
  constructor(props){
@@ -19,7 +22,33 @@ class SignUp extends React.Component {
  onChange(key,value){
  	this.setState({[key] : value});
  }
-render() {
+
+ sign_user_up(){
+
+ 	const {username, password, phone_number, email} = this.state;
+
+ 	Auth.signUp({
+
+ 		username,
+ 		password,
+ 		attributes:{
+ 			phone_number, email
+ 		}
+ 	}).then(() => {
+ 		console.log('successful sign up!');
+ 	}).catch((err) => {
+ 		console.log('error signing up: ', err);
+ 	})
+ }
+
+ confirm_sign_up(){
+ 	Auth.confirmSignUp(this.state.username, this.state.authCode)
+    .then(console.log('successful confirm sign up!'))
+    .catch(err => console.log('error confirming signing up: ', err))
+ }
+
+
+ render() {
     return (
       <div {...css(styles.container)}>
         <h2>Sign Up</h2>
@@ -53,14 +82,25 @@ render() {
           placeholder='Authentication Code'
           onChange={evt => this.onChange('authCode', evt.target.value)}
         />
-        <div {...css(styles.button)}>
+
+	    <div {...css(styles.button)} onClick={this.sign_user_up}>
+	      <span>Sign Up</span>
+	    </div>
+
+	    <input
+	      {...css(styles.input)}
+	      placeholder='Authentication Code'
+	      onChange={evt => this.onChange('authCode', evt.target.value)}
+	    />
+
+        <div {...css(styles.button)} onClick = {this.confirm_sign_up}>
           <span>Confirm Sign Up</span>
         </div>
         
       </div>
     )
   }
-}
+ }
 
 let styles = {
   container: {
