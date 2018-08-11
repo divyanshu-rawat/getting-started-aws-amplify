@@ -1,8 +1,7 @@
 
-
-import React from 'react';
+import React, { Component } from 'react';
 import { css } from 'glamor';
-
+import ReactDom from 'react-dom';
 import { Auth } from 'aws-amplify'
 
 class SignUp extends React.Component {
@@ -17,23 +16,28 @@ class SignUp extends React.Component {
 	    phone_number: '',
 	    authCode: ''
 	  }
+	  this.sign_user_up    = this.sign_user_up.bind(this);
+	  this.confirm_sign_up = this.confirm_sign_up.bind(this);
  }
 
  onChange(key,value){
  	this.setState({[key] : value});
+
  }
 
  sign_user_up(){
 
+ 	console.log('sign user up',this);
  	const {username, password, phone_number, email} = this.state;
 
  	Auth.signUp({
 
  		username,
  		password,
- 		attributes:{
- 			phone_number, email
- 		}
+ 		attributes: {
+        email,
+        phone_number
+      }
  	}).then(() => {
  		console.log('successful sign up!');
  	}).catch((err) => {
@@ -72,15 +76,6 @@ class SignUp extends React.Component {
           {...css(styles.input)}
           placeholder='Phone Number'
           onChange={evt => this.onChange('phone_number', evt.target.value)}
-        />
-        <div {...css(styles.button)}>
-          <span>Sign Up</span>
-        </div>
-        
-        <input
-          {...css(styles.input)}
-          placeholder='Authentication Code'
-          onChange={evt => this.onChange('authCode', evt.target.value)}
         />
 
 	    <div {...css(styles.button)} onClick={this.sign_user_up}>
