@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import './App.css';
-import SignUp from './User_sign_up/Signup';
+import './App.css'
+
+import Header from './Header'
+import Router from './Router'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <h2>Welcome To Amazon Cognito AWS-Amplify</h2>
-         <SignUp />
+        <Header />
+        <Router />
       </div>
     );
   }
 }
 
-export default App;
+export default App
