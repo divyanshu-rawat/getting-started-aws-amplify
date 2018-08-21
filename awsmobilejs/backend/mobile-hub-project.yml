@@ -27,5 +27,5 @@ features:
             require-numbers: true
             require-symbols: true
             require-upper-case: true
-name: react-auth-2018-08-11-19-00-18
+name: Amazon-Cognito-with-AWS-Amplify-2018-08-22-01-03-55
 region: us-east-1
